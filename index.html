@@ -84,18 +84,21 @@
         }
 
         .img-2 {
-            animation: elegantFadeUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            /* Animación más lenta (2s en lugar de 1s) */
+            animation: elegantFadeUp 2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
             animation-delay: 0.2s;
         }
 
         .img-1 {
-            animation: elegantFadeUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-            animation-delay: 0.8s;
+            /* Animación más lenta y aparece recién a los 1.5s */
+            animation: elegantFadeUp 2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            animation-delay: 1.5s;
         }
         
         .img-3 {
-            animation: elegantFadeUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-            animation-delay: 1.0s;
+            /* Animación más lenta y aparece a los 1.8s para darle un ritmo escalonado */
+            animation: elegantFadeUp 2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            animation-delay: 1.8s;
         }
 
         /* --- INFO CARD --- */
@@ -157,9 +160,9 @@
         <p>Acompáñanos a celebrar un nuevo capítulo.</p>
 
         <div class="photo-grid">
-            <img src="https://images.unsplash.com/photo-1516575334481-f85287c2c81d?q=80&w=1374&auto=format&fit=crop" class="photo-item img-1" alt="Foto 1">
-            <img src="https://images.unsplash.com/photo-1616091093729-c046cd956a07?q=80&w=1374&auto=format&fit=crop" class="photo-item img-2" alt="Foto Principal">
-            <img src="https://images.unsplash.com/photo-1485230405346-71acb9518d9c?q=80&w=1549&auto=format&fit=crop" class="photo-item img-3" alt="Foto 3">
+            <img src="lateral_1.jpeg" class="photo-item img-1" alt="Foto 1">
+            <img src="central.jpeg" class="photo-item img-2" alt="Foto Principal">
+            <img src="lateral_2.jpeg" class="photo-item img-3" alt="Foto 3">
         </div>
 
         <div class="info-card">
@@ -186,15 +189,13 @@
         const particles = [];
         const numParticles = 400; 
         
-        // Gravedad casi nula para que floten suavemente
         let gravityX = 0;
-        let gravityY = 0.01; // Reducido drásticamente
+        let gravityY = 0.01; 
 
-        // Escuchar el movimiento del dispositivo (Giroscopio)
         window.addEventListener('deviceorientation', (e) => {
             if (e.gamma !== null && e.beta !== null) {
-                gravityX = (e.gamma / 90) * 0.02; // Reacción súper suave
-                gravityY = Math.max(0.005, (e.beta / 90) * 0.02); // Gravedad máxima muy baja
+                gravityX = (e.gamma / 90) * 0.02; 
+                gravityY = Math.max(0.005, (e.beta / 90) * 0.02); 
             }
         });
 
@@ -204,7 +205,6 @@
                 this.x = Math.random() * width;
                 this.y = -Math.random() * height * 2; 
                 
-                // Velocidad inicial casi detenida
                 this.vx = (Math.random() - 0.5) * 0.1;
                 this.vy = Math.random() * 0.1;
                 
@@ -214,7 +214,6 @@
                 this.friction = 0.6; 
                 this.restitution = 0.2; 
                 
-                // Rotación más lenta
                 this.rotation = Math.random() * Math.PI * 2;
                 this.rotationSpeed = (Math.random() - 0.5) * 0.02; 
             }
@@ -223,7 +222,6 @@
                 this.vx += gravityX;
                 this.vy += gravityY;
 
-                // Mayor resistencia del aire (freno constante)
                 this.vx *= 0.98;
                 this.vy *= 0.98;
 
@@ -231,14 +229,12 @@
                 this.y += this.vy;
                 this.rotation += this.rotationSpeed;
 
-                // Colisión con el piso
                 if (this.y + this.radius > height) {
                     this.y = height - this.radius;
                     this.vy *= -this.restitution; 
                     this.vx *= this.friction; 
                 }
 
-                // Colisión con paredes
                 if (this.x + this.radius > width) {
                     this.x = width - this.radius;
                     this.vx *= -this.restitution;
