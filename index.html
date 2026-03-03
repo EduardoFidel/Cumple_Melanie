@@ -50,34 +50,45 @@
 
         .name-title {
             font-family: 'Alex Brush', cursive; 
-            font-size: 5rem;
+            font-size: 6.5rem; /* Más grande en general */
             color: #8E44AD; 
             margin: 0;
-            line-height: 1;
+            line-height: 0.9;
             font-weight: normal;
+        }
+
+        .big-m {
+            font-size: 1.3em; /* Hace la 'M' considerablemente más grande */
         }
 
         .subtitle {
             font-family: 'Karla', sans-serif;
             font-size: 1.1rem;
             letter-spacing: 3px; 
-            color: #4A235A;
+            color: #8E44AD; /* Mismo color que Melanie's */
             margin: 10px 0;
             text-transform: uppercase;
         }
 
         .age-title {
-            font-family: 'DM Serif Display', serif;
+            font-family: 'Karla', sans-serif; /* Fuente más delgada y estilizada */
+            font-weight: 300;
             font-size: 5.5rem; 
-            color: #FFD700; /* Dorado brillante */
+            color: #FFD700; 
             margin: 0;
             line-height: 1;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.1), 0 0 15px rgba(255, 215, 0, 0.4); 
         }
 
+        .age-title sup {
+            font-size: 0.4em; /* Tamaño del 'th' */
+            vertical-align: super;
+        }
+
         .intro-text {
             margin-top: 15px;
-            font-size: 1.1rem;
+            font-size: 0.95rem; /* Letra más pequeña */
+            color: #4A235A;
         }
 
         /* --- GRILLA DE FOTOS --- */
@@ -142,16 +153,16 @@
 
         .detail {
             margin: 15px 0;
-            font-size: 1.1rem;
+            font-size: 0.95rem; /* Mismo tamaño que la intro */
             border-bottom: 1px dashed #ddd;
             padding-bottom: 15px;
         }
         
         .detail strong {
             display: block;
-            color: #FFD700; /* Actualizado al mismo dorado brillante del 27 */
+            color: #FFD700; 
             font-family: 'DM Serif Display', serif;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             margin-bottom: 5px;
         }
 
@@ -173,9 +184,9 @@
         /* --- OPTIMIZACIÓN PARA MÓVILES --- */
         @media (max-width: 600px) {
             .container { padding: 20px; }
-            .name-title { font-size: 4rem; }
+            .name-title { font-size: 5rem; }
             .subtitle { font-size: 0.9rem; }
-            .age-title { font-size: 4.5rem; }
+            .age-title { font-size: 4rem; }
             .photo-grid { gap: 8px; }
             .img-1, .img-3 { height: 150px; }
             .img-2 { height: 220px; }
@@ -190,10 +201,10 @@
     <div class="container">
         
         <div class="header-section">
-            <h1 class="name-title">Melanie</h1>
+            <h1 class="name-title"><span class="big-m">M</span>elanie's</h1>
             <div class="subtitle">BIRTHDAY PARTY</div>
-            <h2 class="age-title">27</h2>
-            <p class="intro-text">Acompáñanos a celebrar un nuevo capítulo.</p>
+            <h2 class="age-title">27<sup>th</sup></h2>
+            <p class="intro-text">Acompáñame a celebrar un nuevo capítulo.</p>
         </div>
 
         <div class="photo-grid">
