@@ -9,24 +9,38 @@
         body {
             /* Aquí va la ruta de tu imagen .jpeg */
             background-image: url('fondo.jpeg'); 
-            background-size: cover; /* Asegura que la imagen cubra toda la pantalla */
-            background-position: center; /* Centra la imagen */
-            background-attachment: fixed; /* Mantiene el fondo estático al hacer scroll */
+            background-size: cover; 
+            background-position: center; 
+            background-attachment: fixed; 
             font-family: 'Karla', sans-serif;
             text-align: center;
             padding: 40px 20px;
             color: #4A235A;
+            margin: 0;
+            overflow-x: hidden; /* Evita el scroll horizontal */
+        }
+
+        /* --- CANVAS PARA LOS BRILLITOS --- */
+        #sparklesCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Permite hacer clic a través de los brillitos */
+            z-index: 1; /* Detrás del contenedor principal */
         }
 
         .container {
             max-width: 600px;
             margin: 0 auto;
-            /* Agregamos un fondo blanco semitransparente para que el texto sea legible sobre la textura */
             background: rgba(255, 255, 255, 0.6); 
             padding: 30px;
             border-radius: 20px;
-            backdrop-filter: blur(8px); /* Crea el efecto de vidrio esmerilado */
+            backdrop-filter: blur(8px); 
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 10; /* Asegura que el contenido esté sobre los brillos */
         }
         
         h1 {
@@ -44,36 +58,47 @@
         /* --- GRILLA DE FOTOS --- */
         .photo-grid {
             display: grid;
-            grid-template-columns: 1fr 1.5fr 1fr; /* Tres columnas */
-            gap: 10px;
-            align-items: end; /* Alineados abajo */
+            grid-template-columns: 1fr 1.5fr 1fr; 
+            gap: 15px;
+            align-items: center; 
             margin: 40px 0;
         }
 
         .photo-item {
             width: 100%;
             object-fit: cover;
-            border: 2px solid #D4AF37; /* Borde dorado */
+            border: 2px solid #D4AF37; 
             box-shadow: 5px 5px 15px rgba(74, 35, 90, 0.15);
+            border-radius: 8px; /* Cambiado a rectangular con bordes ligeramente suaves */
+            opacity: 0; /* Oculto inicialmente para la animación */
         }
 
-        /* Foto Izquierda (Pequeña) */
+        /* Alturas ajustadas para formato vertical */
+        .img-1 { height: 200px; }
+        .img-2 { height: 280px; border-width: 3px; }
+        .img-3 { height: 200px; }
+
+        /* --- ANIMACIONES DE ENTRADA --- */
+        @keyframes elegantFadeUp {
+            0% { opacity: 0; transform: translateY(40px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* La foto central aparece primero */
+        .img-2 {
+            animation: elegantFadeUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            animation-delay: 0.2s;
+        }
+
+        /* Las fotos laterales aparecen después */
         .img-1 {
-            height: 150px;
-            border-radius: 100px 100px 0 0; /* Forma de arco */
+            animation: elegantFadeUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            animation-delay: 0.8s;
         }
         
-        /* Foto Central (Grande) */
-        .img-2 {
-            height: 280px;
-            border-radius: 200px 200px 0 0; /* Arco grande */
-            border-width: 3px;
-        }
-
-        /* Foto Derecha (Pequeña) */
         .img-3 {
-            height: 150px;
-            border-radius: 100px 100px 0 0;
+            animation: elegantFadeUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            animation-delay: 1.0s;
         }
 
         /* --- INFO CARD --- */
@@ -115,9 +140,20 @@
         
         .rsvp-btn:hover { transform: scale(1.05); }
 
+        /* --- OPTIMIZACIÓN PARA MÓVILES --- */
+        @media (max-width: 600px) {
+            .container { padding: 20px; }
+            h1 { font-size: 2.5rem; }
+            .photo-grid { gap: 8px; }
+            .img-1, .img-3 { height: 150px; }
+            .img-2 { height: 220px; }
+            .info-card { padding: 20px; }
+        }
     </style>
 </head>
 <body>
+
+    <canvas id="sparklesCanvas"></canvas>
 
     <div class="container">
         <h1>Melanie <span class="gold-accent">27</span></h1>
@@ -125,9 +161,7 @@
 
         <div class="photo-grid">
             <img src="https://images.unsplash.com/photo-1516575334481-f85287c2c81d?q=80&w=1374&auto=format&fit=crop" class="photo-item img-1" alt="Foto 1">
-            
             <img src="https://images.unsplash.com/photo-1616091093729-c046cd956a07?q=80&w=1374&auto=format&fit=crop" class="photo-item img-2" alt="Foto Principal">
-            
             <img src="https://images.unsplash.com/photo-1485230405346-71acb9518d9c?q=80&w=1549&auto=format&fit=crop" class="photo-item img-3" alt="Foto 3">
         </div>
 
@@ -145,5 +179,104 @@
         </div>
     </div>
 
+    <script>
+        const canvas = document.getElementById('sparklesCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+        
+        const particles = [];
+        const numParticles = 150; // Cantidad de brillitos
+        
+        // Gravedad base (hacia abajo)
+        let gravityX = 0;
+        let gravityY = 0.2;
+
+        // Escuchar el movimiento del dispositivo (Giroscopio)
+        window.addEventListener('deviceorientation', (e) => {
+            if (e.gamma !== null && e.beta !== null) {
+                // gamma es la inclinación izquierda/derecha
+                // beta es la inclinación adelante/atrás
+                gravityX = (e.gamma / 90) * 0.5;
+                // Limitamos la gravedad Y para que no suban al techo, siempre caen o se quedan en el piso
+                gravityY = Math.max(0.05, (e.beta / 90) * 0.5); 
+            }
+        });
+
+        // Clase Partícula
+        class Particle {
+            constructor() {
+                this.radius = Math.random() * 3 + 1;
+                this.x = Math.random() * width;
+                this.y = -Math.random() * height; // Empiezan arriba de la pantalla
+                this.vx = (Math.random() - 0.5) * 2;
+                this.vy = Math.random() * 2;
+                // Colores dorados y morados
+                const colors = ['#D4AF37', '#F1C40F', '#9C27B0', '#E0B0FF', '#FFFFFF'];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.friction = 0.8; // Fricción al chocar
+                this.restitution = 0.5; // Rebote
+            }
+
+            update() {
+                // Aplicar gravedad interactiva
+                this.vx += gravityX;
+                this.vy += gravityY;
+
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Colisión con el "piso" de la pantalla
+                if (this.y + this.radius > height) {
+                    this.y = height - this.radius;
+                    this.vy *= -this.restitution; // Rebota
+                    this.vx *= this.friction; // Se frena en el piso
+                }
+
+                // Colisión con las paredes laterales
+                if (this.x + this.radius > width) {
+                    this.x = width - this.radius;
+                    this.vx *= -this.restitution;
+                } else if (this.x - this.radius < 0) {
+                    this.x = this.radius;
+                    this.vx *= -this.restitution;
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+                ctx.closePath();
+            }
+        }
+
+        // Crear partículas iniciales
+        for (let i = 0; i < numParticles; i++) {
+            particles.push(new Particle());
+        }
+
+        // Bucle de animación
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        // Ajustar el canvas si se cambia el tamaño de la ventana
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+    </script>
 </body>
 </html>
