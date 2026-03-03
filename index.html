@@ -84,19 +84,16 @@
         }
 
         .img-2 {
-            /* Animación más lenta (2s en lugar de 1s) */
             animation: elegantFadeUp 2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
             animation-delay: 0.2s;
         }
 
         .img-1 {
-            /* Animación más lenta y aparece recién a los 1.5s */
             animation: elegantFadeUp 2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
             animation-delay: 1.5s;
         }
         
         .img-3 {
-            /* Animación más lenta y aparece a los 1.8s para darle un ritmo escalonado */
             animation: elegantFadeUp 2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
             animation-delay: 1.8s;
         }
@@ -201,14 +198,16 @@
 
         class Particle {
             constructor() {
-                this.radius = Math.random() * 1.5 + 0.5; 
+                // Aumentamos un poquito el tamaño base
+                this.radius = Math.random() * 2 + 1.2; 
                 this.x = Math.random() * width;
                 this.y = -Math.random() * height * 2; 
                 
                 this.vx = (Math.random() - 0.5) * 0.1;
                 this.vy = Math.random() * 0.1;
                 
-                const colors = ['#FFF9C4', '#FFF59D', '#FFF176', '#FFFFFF', '#FFFAFA', '#FFFFE0'];
+                // Paleta de dorados mucho más intensos y puros
+                const colors = ['#FFD700', '#F5B041', '#F1C40F', '#D4AF37', '#FFA500', '#F39C12'];
                 this.color = colors[Math.floor(Math.random() * colors.length)];
                 
                 this.friction = 0.6; 
@@ -249,7 +248,8 @@
                 ctx.translate(this.x, this.y);
                 ctx.rotate(this.rotation);
 
-                ctx.shadowBlur = 10;
+                // Aumentamos el resplandor a 15 para que brillen más fuerte
+                ctx.shadowBlur = 15;
                 ctx.shadowColor = this.color;
                 ctx.fillStyle = this.color;
 
