@@ -27,8 +27,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none; /* Permite hacer clic a través de los brillitos */
-            z-index: 9999; /* ¡Ahora está por encima de todo! */
+            pointer-events: none; 
+            z-index: 9999; 
         }
 
         .container {
@@ -184,49 +184,48 @@
         let height = canvas.height = window.innerHeight;
         
         const particles = [];
-        const numParticles = 120; // Ligeramente menos para que no sature la pantalla
+        const numParticles = 400; 
         
-        // Gravedad mucho más lenta para simular caída suave
+        // Gravedad casi nula para que floten suavemente
         let gravityX = 0;
-        let gravityY = 0.03; 
+        let gravityY = 0.01; // Reducido drásticamente
 
         // Escuchar el movimiento del dispositivo (Giroscopio)
         window.addEventListener('deviceorientation', (e) => {
             if (e.gamma !== null && e.beta !== null) {
-                gravityX = (e.gamma / 90) * 0.15; // Reacción más sutil
-                gravityY = Math.max(0.01, (e.beta / 90) * 0.15); 
+                gravityX = (e.gamma / 90) * 0.02; // Reacción súper suave
+                gravityY = Math.max(0.005, (e.beta / 90) * 0.02); // Gravedad máxima muy baja
             }
         });
 
         class Particle {
             constructor() {
-                // Radio más pequeño, como arena
-                this.radius = Math.random() * 2 + 0.8; 
+                this.radius = Math.random() * 1.5 + 0.5; 
                 this.x = Math.random() * width;
-                this.y = -Math.random() * height - 100; // Empiezan más arriba
-                // Velocidad inicial súper lenta
-                this.vx = (Math.random() - 0.5) * 0.5;
-                this.vy = Math.random() * 0.5;
+                this.y = -Math.random() * height * 2; 
                 
-                // Paleta de dorados brillantes y blancos
-                const colors = ['#FFDF00', '#D4AF37', '#FFF8DC', '#FFFFFF', '#FDB813'];
+                // Velocidad inicial casi detenida
+                this.vx = (Math.random() - 0.5) * 0.1;
+                this.vy = Math.random() * 0.1;
+                
+                const colors = ['#FFF9C4', '#FFF59D', '#FFF176', '#FFFFFF', '#FFFAFA', '#FFFFE0'];
                 this.color = colors[Math.floor(Math.random() * colors.length)];
                 
-                this.friction = 0.6; // Se frena más rápido al tocar el piso (como arena)
-                this.restitution = 0.2; // Casi no rebota
+                this.friction = 0.6; 
+                this.restitution = 0.2; 
                 
-                // Para rotar las estrellitas
+                // Rotación más lenta
                 this.rotation = Math.random() * Math.PI * 2;
-                this.rotationSpeed = (Math.random() - 0.5) * 0.05;
+                this.rotationSpeed = (Math.random() - 0.5) * 0.02; 
             }
 
             update() {
                 this.vx += gravityX;
                 this.vy += gravityY;
 
-                // Resistencia del aire para que floten un poco
-                this.vx *= 0.99;
-                this.vy *= 0.99;
+                // Mayor resistencia del aire (freno constante)
+                this.vx *= 0.98;
+                this.vy *= 0.98;
 
                 this.x += this.vx;
                 this.y += this.vy;
@@ -254,12 +253,10 @@
                 ctx.translate(this.x, this.y);
                 ctx.rotate(this.rotation);
 
-                // Efecto de brillo (Glow)
-                ctx.shadowBlur = 6;
+                ctx.shadowBlur = 10;
                 ctx.shadowColor = this.color;
                 ctx.fillStyle = this.color;
 
-                // Dibujar una estrella de 4 puntas (Brillito)
                 ctx.beginPath();
                 const spikes = 4;
                 const outerRadius = this.radius * 2;
@@ -294,7 +291,6 @@
         }
 
         function animate() {
-            // Limpiar el canvas con un poco de opacidad para dejar una mini estela (opcional, aquí está limpio)
             ctx.clearRect(0, 0, width, height);
             
             particles.forEach(p => {
