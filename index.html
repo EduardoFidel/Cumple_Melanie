@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Melanie 27 - Galería</title>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Karla:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=DM+Serif+Display&family=Karla:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         body {
             /* Aquí va la ruta de tu imagen .jpeg */
@@ -43,16 +43,42 @@
             z-index: 10;
         }
         
-        h1 {
-            font-family: 'DM Serif Display', serif;
-            font-size: 3rem;
-            color: #4A235A;
-            margin-bottom: 10px;
+        /* --- NUEVO ENCABEZADO ESTILO IMAGEN --- */
+        .header-section {
+            margin-bottom: 30px;
         }
 
-        .gold-accent {
-            color: #D4AF37;
-            font-style: italic;
+        .name-title {
+            font-family: 'Alex Brush', cursive; /* Fuente idéntica a la foto */
+            font-size: 5rem;
+            color: #8E44AD; /* Un morado ligeramente más suave como en la foto */
+            margin: 0;
+            line-height: 1;
+            font-weight: normal;
+        }
+
+        .subtitle {
+            font-family: 'Karla', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: 3px; /* Espaciado elegante */
+            color: #4A235A;
+            margin: 10px 0;
+            text-transform: uppercase;
+        }
+
+        .age-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: 5.5rem; /* Número mucho más grande */
+            color: #FFD700; /* Dorado mucho más brillante y puro */
+            margin: 0;
+            line-height: 1;
+            /* Sombra sutil para darle un efecto de brillo luminoso */
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1), 0 0 15px rgba(255, 215, 0, 0.4); 
+        }
+
+        .intro-text {
+            margin-top: 15px;
+            font-size: 1.1rem;
         }
 
         /* --- GRILLA DE FOTOS --- */
@@ -67,14 +93,22 @@
         .photo-item {
             width: 100%;
             object-fit: cover;
-            border: 2px solid #D4AF37; 
             box-shadow: 5px 5px 15px rgba(74, 35, 90, 0.15);
             border-radius: 8px; 
             opacity: 0; 
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .photo-item:hover, .photo-item:active {
+            transform: scale(1.07);
+            box-shadow: 8px 8px 25px rgba(74, 35, 90, 0.3);
+            z-index: 20; 
         }
 
         .img-1 { height: 200px; }
-        .img-2 { height: 280px; border-width: 3px; }
+        .img-2 { height: 280px; }
         .img-3 { height: 200px; }
 
         /* --- ANIMACIONES DE ENTRADA --- */
@@ -140,7 +174,9 @@
         /* --- OPTIMIZACIÓN PARA MÓVILES --- */
         @media (max-width: 600px) {
             .container { padding: 20px; }
-            h1 { font-size: 2.5rem; }
+            .name-title { font-size: 4rem; }
+            .subtitle { font-size: 0.9rem; }
+            .age-title { font-size: 4.5rem; }
             .photo-grid { gap: 8px; }
             .img-1, .img-3 { height: 150px; }
             .img-2 { height: 220px; }
@@ -153,8 +189,13 @@
     <canvas id="sparklesCanvas"></canvas>
 
     <div class="container">
-        <h1>Melanie <span class="gold-accent">27</span></h1>
-        <p>Acompáñanos a celebrar un nuevo capítulo.</p>
+        
+        <div class="header-section">
+            <h1 class="name-title">Melanie</h1>
+            <div class="subtitle">BIRTHDAY PARTY</div>
+            <h2 class="age-title">27</h2>
+            <p class="intro-text">Acompáñanos a celebrar un nuevo capítulo.</p>
+        </div>
 
         <div class="photo-grid">
             <img src="lateral_1.jpeg" class="photo-item img-1" alt="Foto 1">
@@ -172,7 +213,7 @@
                 Av. Arequipa 1234, Lima
             </div>
             
-            <a href="https://wa.me/51978852214?text=¡Hola!%20Confirmo%20mi%20asistencia%20para%20celebrar%20los%2027%20de%20Melanie." target="_blank" class="rsvp-btn">Confirmar Asistencia</a>
+            <a href="https://wa.me/51978852214?text=¡Hola!%20Confirmo%20mi%20asistencia%20para%20celebrar%20los%2027%20de%20Melanie.%20✨" target="_blank" class="rsvp-btn">Confirmar Asistencia</a>
         </div>
     </div>
 
@@ -198,7 +239,6 @@
 
         class Particle {
             constructor() {
-                // Regresamos al tamaño original más delicado
                 this.radius = Math.random() * 1.5 + 0.5; 
                 this.x = Math.random() * width;
                 this.y = -Math.random() * height * 2; 
@@ -206,7 +246,6 @@
                 this.vx = (Math.random() - 0.5) * 0.1;
                 this.vy = Math.random() * 0.1;
                 
-                // Regresamos a los colores pasteles y blancos
                 const colors = ['#FFF9C4', '#FFF59D', '#FFF176', '#FFFFFF', '#FFFAFA', '#FFFFE0'];
                 this.color = colors[Math.floor(Math.random() * colors.length)];
                 
@@ -248,7 +287,6 @@
                 ctx.translate(this.x, this.y);
                 ctx.rotate(this.rotation);
 
-                // Mantenemos el resplandor aumentado a 15
                 ctx.shadowBlur = 15;
                 ctx.shadowColor = this.color;
                 ctx.fillStyle = this.color;
