@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Melanie 27 - Galería</title>
-    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=DM+Serif+Display&family=Karla:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@300;400;700&family=DM+Serif+Display&family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
         body {
             /* Aquí va la ruta de tu imagen .jpeg */
@@ -12,7 +12,8 @@
             background-size: cover; 
             background-position: center; 
             background-attachment: fixed; 
-            font-family: 'Karla', sans-serif;
+            /* Se aplica Anek Bangla para todo el cuerpo del texto como solicitaste */
+            font-family: 'Anek Bangla', sans-serif;
             text-align: center;
             padding: 40px 20px;
             color: #4A235A;
@@ -43,52 +44,51 @@
             z-index: 10;
         }
         
-        /* --- NUEVO ENCABEZADO ESTILO IMAGEN --- */
+        /* --- ENCABEZADO ACTUALIZADO --- */
         .header-section {
             margin-bottom: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .name-title {
-            font-family: 'Alex Brush', cursive; 
-            font-size: 6.5rem; /* Más grande en general */
-            color: #8E44AD; 
+            font-family: 'Great Vibes', cursive; /* Alternativa a Brittany */
+            font-size: 7.5rem; 
+            color: #693a98; 
             margin: 0;
-            line-height: 0.9;
+            line-height: 0.8;
             font-weight: normal;
+            padding-right: 20px; /* Ligero ajuste para centrar visualmente la cursiva */
         }
 
-        .big-m {
-            font-size: 1.3em; /* Hace la 'M' considerablemente más grande */
+        .age-title {
+            font-family: 'DM Serif Display', serif; /* Alternativa a Abiah */
+            font-weight: normal;
+            font-size: 5.5rem; 
+            color: #693a98; 
+            margin: -10px 0 0 0; /* Margen negativo para acercarlo al nombre */
+            line-height: 1;
+        }
+
+        .age-title sup {
+            font-size: 0.45em; 
+            vertical-align: super;
         }
 
         .subtitle {
-            font-family: 'Karla', sans-serif;
+            font-family: 'Anek Bangla', sans-serif;
             font-size: 1.1rem;
             letter-spacing: 3px; 
-            color: #8E44AD; /* Mismo color que Melanie's */
+            color: #693a98; 
             margin: 10px 0;
             text-transform: uppercase;
         }
 
-        .age-title {
-            font-family: 'Karla', sans-serif; /* Fuente más delgada y estilizada */
-            font-weight: 300;
-            font-size: 5.5rem; 
-            color: #FFD700; 
-            margin: 0;
-            line-height: 1;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1), 0 0 15px rgba(255, 215, 0, 0.4); 
-        }
-
-        .age-title sup {
-            font-size: 0.4em; /* Tamaño del 'th' */
-            vertical-align: super;
-        }
-
         .intro-text {
             margin-top: 15px;
-            font-size: 0.95rem; /* Letra más pequeña */
-            color: #4A235A;
+            font-size: 1rem; 
+            color: #693a98;
         }
 
         /* --- GRILLA DE FOTOS --- */
@@ -148,35 +148,36 @@
             padding: 30px;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            border: 1px solid rgba(212, 175, 55, 0.2);
+            border: 1px solid rgba(105, 58, 152, 0.2); /* Borde sutil a juego con el nuevo color */
         }
 
         .detail {
             margin: 15px 0;
-            font-size: 0.95rem; /* Mismo tamaño que la intro */
+            font-size: 1.1rem; 
             border-bottom: 1px dashed #ddd;
             padding-bottom: 15px;
         }
         
         .detail strong {
             display: block;
-            color: #FFD700; 
-            font-family: 'DM Serif Display', serif;
-            font-size: 1.2rem;
+            color: #693a98; /* Color actualizado */
+            font-family: 'DM Serif Display', serif; /* Se usa la fuente serif para resaltar */
+            font-size: 1.4rem;
             margin-bottom: 5px;
         }
 
         .rsvp-btn {
             display: inline-block;
             margin-top: 20px;
-            background: linear-gradient(45deg, #7B1FA2, #9C27B0);
+            background: linear-gradient(45deg, #693a98, #9C27B0); /* Degradado ajustado al nuevo color */
             color: white;
             text-decoration: none;
             padding: 15px 40px;
             border-radius: 50px;
             font-weight: bold;
-            box-shadow: 0 5px 15px rgba(123, 31, 162, 0.3);
+            box-shadow: 0 5px 15px rgba(105, 58, 152, 0.3);
             transition: transform 0.2s;
+            font-family: 'Anek Bangla', sans-serif;
         }
         
         .rsvp-btn:hover { transform: scale(1.05); }
@@ -184,9 +185,9 @@
         /* --- OPTIMIZACIÓN PARA MÓVILES --- */
         @media (max-width: 600px) {
             .container { padding: 20px; }
-            .name-title { font-size: 5rem; }
+            .name-title { font-size: 5.5rem; padding-right: 10px; }
             .subtitle { font-size: 0.9rem; }
-            .age-title { font-size: 4rem; }
+            .age-title { font-size: 4.5rem; }
             .photo-grid { gap: 8px; }
             .img-1, .img-3 { height: 150px; }
             .img-2 { height: 220px; }
@@ -201,9 +202,9 @@
     <div class="container">
         
         <div class="header-section">
-            <h1 class="name-title"><span class="big-m">M</span>elanie's</h1>
-            <div class="subtitle">BIRTHDAY PARTY</div>
+            <h1 class="name-title">Melanie</h1>
             <h2 class="age-title">27<sup>th</sup></h2>
+            <div class="subtitle">BIRTHDAY PARTY</div>
             <p class="intro-text">Acompáñame a celebrar un nuevo capítulo.</p>
         </div>
 
